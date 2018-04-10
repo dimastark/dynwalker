@@ -12,4 +12,6 @@ async def test(request):
 
 
 if __name__ == '__main__':
+    from aoiklivereload import LiveReloader
+    LiveReloader().start_watcher_thread()
     app.run(host='0.0.0.0', port=8000)
