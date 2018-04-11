@@ -6,6 +6,6 @@ WORKDIR /app
 RUN pip install pipenv
 RUN pipenv install --system
 
-CMD python src/__main__.py
+CMD python -m src.__main__
 
 EXPOSE 8000
