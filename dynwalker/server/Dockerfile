@@ -3,9 +3,13 @@ FROM python:3.6
 COPY . /app
 WORKDIR /app
 
-RUN pip install pipenv
-RUN pipenv install --system
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN apt-get install -y nodejs
+RUN npm install -gs nodemon
 
-CMD python -m src.__main__
+RUN pip install -U pipenv
+RUN pipenv install --skip-lock --system
+
+CMD nodemon --exec 'python -m src.__main__' --watch src -e py
 
 EXPOSE 8000

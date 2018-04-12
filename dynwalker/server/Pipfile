@@ -4,8 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-sanic = "*"
-aoiklivereload = "*"
+Sanic = "*"
+sanic-cors = "*"
 
 [dev-packages]
 

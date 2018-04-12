@@ -4,7 +4,7 @@ from sanic.request import Request
 
 async def get_area(request: Request) -> HTTPResponse:
     return json({
-        'map': {
+        'size': {
             'width': 1000,
             'height': 500,
         },
