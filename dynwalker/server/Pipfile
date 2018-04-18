@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 Sanic = "*"
 sanic-cors = "*"
+deap = "*"
+numpy = "*"
 
 [dev-packages]
 
