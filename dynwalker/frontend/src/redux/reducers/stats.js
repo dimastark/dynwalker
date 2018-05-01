@@ -6,10 +6,8 @@ const defaultState = {
     isPending: false,
     description: '',
     populations: {
-        count: -1,
-        from: -1,
-        to: -1,
-        items: []
+        species: [],
+        fitness: []
     }
 };
 
@@ -21,6 +19,7 @@ export default handleActions({
 
     [RECEIVE_STATS]: (state, {payload}) => ({
         ...state,
-        ...payload.data
+        ...payload.data,
+        isPending: false
     })
 }, defaultState);
