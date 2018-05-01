@@ -1,0 +1,29 @@
+.stats
+{
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+}
+
+.stats__common
+{
+    width: 600px;
+}
+
+.stats__common > p
+{
+    margin-left: 60px;
+}
+
+.common__header
+{
+    text-align: center;
+}
+
+@media (max-width: 1200px)
+{
+    .stats
+    {
+        justify-content: space-around;
+    }
+}

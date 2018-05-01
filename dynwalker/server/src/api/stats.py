@@ -8,9 +8,9 @@ async def get_stats(request: Request) -> HTTPResponse:
     return json({
         'description': 'Модель хождения от точки до точки.',
         'populations': {
-            'species': ['walker', 'breaker'],
+            'species': ['walker', 'interrupter'],
             'fitness': [
-                {'walker': random.randint(i, i + 20), 'breaker': random.randint(80 - i, 100 - i)} for i in range(100)
+                {'walker': random.randint(i, i + 20), 'interrupter': random.randint(80 - i, 100 - i)} for i in range(100)
             ],
         },
     })

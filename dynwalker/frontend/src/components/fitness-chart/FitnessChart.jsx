@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { LineChart, Brush, Line, CartesianGrid, Legend, XAxis, YAxis, Tooltip } from 'recharts';
 
+import './fitness-chart.css';
+
 export default class FitnessChart extends PureComponent {
     static propTypes = {
         species: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -19,7 +21,7 @@ export default class FitnessChart extends PureComponent {
 
         return (
             <div className="fitness-chart">
-                <h1 className="fitness-chart__label">Fitness function</h1>
+                <h2 className="fitness-chart__label">Функция приспособленности</h2>
                 <LineChart data={data} width={600} height={400}>
                     <CartesianGrid vertical={false}/>
                     <XAxis dataKey="generation"/>
