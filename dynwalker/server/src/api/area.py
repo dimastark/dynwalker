@@ -10,13 +10,11 @@ async def get_area(request: Request) -> HTTPResponse:
         },
         'statics': [
             {
-                'type': 'obstacle',
                 'shape': 'rectangle',
                 'dimensions': [200, 200],
                 'coordinates': [0, 0],
             },
             {
-                'type': 'obstacle',
                 'shape': 'circle',
                 'dimensions': [20],
                 'coordinates': [500, 500],
@@ -25,14 +23,14 @@ async def get_area(request: Request) -> HTTPResponse:
         'dynamics': [
             {
                 'id': 10,
-                'type': 'dynamic',
+                'type': 'interrupter',
                 'shape': 'circle',
                 'dimensions': [50],
                 'coordinates': [600, 600],
             },
             {
                 'id': 1,
-                'type': 'agent',
+                'type': 'walker',
                 'shape': 'circle',
                 'dimensions': [50],
                 'coordinates': [700, 700],
@@ -40,7 +38,7 @@ async def get_area(request: Request) -> HTTPResponse:
             },
             {
                 'id': 2,
-                'type': 'agent',
+                'type': 'walker',
                 'shape': 'circle',
                 'dimensions': [50],
                 'coordinates': [770, 770],
@@ -48,7 +46,7 @@ async def get_area(request: Request) -> HTTPResponse:
             },
             {
                 'id': 3,
-                'type': 'agent',
+                'type': 'walker',
                 'shape': 'circle',
                 'dimensions': [50],
                 'coordinates': [700, 0],

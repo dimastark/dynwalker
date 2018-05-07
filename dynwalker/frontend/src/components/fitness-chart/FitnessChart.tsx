@@ -1,15 +1,16 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import { LineChart, Brush, Line, CartesianGrid, Legend, XAxis, YAxis, Tooltip } from 'recharts';
+
+import { Species } from '../../redux/services/api/area';
 
 import './fitness-chart.css';
 
-export default class FitnessChart extends PureComponent {
-    static propTypes = {
-        species: PropTypes.arrayOf(PropTypes.string).isRequired,
-        fitness: PropTypes.arrayOf(PropTypes.object).isRequired
-    };
+interface Props {
+    species: Species[],
+    fitness: { [species in Species]: number }[]
+}
 
+export default class FitnessChart extends React.PureComponent<Props> {
     static colors = [
         '#82ca9d', '#dd2853', '#8884d8',
         '#ffff00', '#00ffff', '#ff00ff'
@@ -32,7 +33,7 @@ export default class FitnessChart extends PureComponent {
                     <Brush startIndex={startIndex}>
                         <LineChart>
                             <CartesianGrid/>
-                            <YAxis hide />
+                            <YAxis hide/>
                             {this.renderLines()}
                         </LineChart>
                     </Brush>
