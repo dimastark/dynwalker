@@ -1,10 +1,14 @@
 version: '3'
 services:
   server:
-    build: dynwalker/server
+    build:
+      dockerfile: ./server/Dockerfile
+      context: dynwalker
     restart: on-failure
     volumes:
       - ./dynwalker/server:/app
+      - ./dynwalker/backends:/backends
+      - ./dynwalker/config.ini:/config.ini
     ports:
       - 8000:8000
   frontend:

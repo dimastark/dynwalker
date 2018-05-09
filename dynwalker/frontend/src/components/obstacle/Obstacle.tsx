@@ -28,7 +28,7 @@ interface RectangleProps {
 type Props = BaseProps & (CircleProps | RectangleProps);
 
 const Obstacle: React.StatelessComponent<Props> = props => {
-    const {color = '#000000', x, y, scale = 1, text = ''} = props;
+    const {color = '#202124', x, y, scale = 1, text = ''} = props;
 
     const gap = 10 * scale;
     const baseProps = {
