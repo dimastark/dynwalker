@@ -33,7 +33,7 @@ export default class FitnessChart extends React.PureComponent<Props> {
                     <Brush startIndex={startIndex}>
                         <LineChart>
                             <CartesianGrid/>
-                            <YAxis hide/>
+                            <YAxis hide={true}/>
                             {this.renderLines()}
                         </LineChart>
                     </Brush>
