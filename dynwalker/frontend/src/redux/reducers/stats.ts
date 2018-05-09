@@ -35,6 +35,6 @@ export default function statsReducer(state: StatsState = defaultState, action: S
             };
 
         default:
-            return defaultState;
+            return state;
     }
 }

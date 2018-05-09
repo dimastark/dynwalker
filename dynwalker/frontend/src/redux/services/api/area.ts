@@ -4,7 +4,8 @@ import { WithId } from '../transform';
 
 interface Entity {
     color: string
-    coordinates: [number, number]
+    x: number,
+    y: number
 }
 
 export enum Shape {
@@ -14,12 +15,13 @@ export enum Shape {
 
 interface Circle extends Entity {
     shape: Shape.Circle,
-    dimensions: [number]
+    radius: number
 }
 
 interface Rectangle extends Entity {
     shape: Shape.Rectangle,
-    dimensions: [number, number]
+    width: number,
+    height: number
 }
 
 export enum Species {
@@ -32,7 +34,7 @@ interface Agent {
 }
 
 export type StaticEntity = Circle | Rectangle;
-export type DynamicEntity = WithId<Agent>;
+export type DynamicEntity = StaticEntity & WithId<Agent>;
 
 export interface Area {
     size: {

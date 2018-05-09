@@ -46,6 +46,6 @@ export default function areaReducer(state: AreaState = defaultState, action: Are
             };
 
         default:
-            return defaultState;
+            return state;
     }
 }
