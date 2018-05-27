@@ -4,12 +4,15 @@ import TextFieldUI from '@material-ui/core/TextField';
 type Props = {
     value: string,
     placeholder? : string;
+    error?: boolean,
+    // type? : string,
     handleChange: (value: string) => void;
 }
 
 class TextField extends React.PureComponent<Props> {
     render() {
-        const { value, placeholder } = this.props;
+        const { value, placeholder, error } = this.props;
+
 
         return (
             <TextFieldUI
@@ -18,6 +21,7 @@ class TextField extends React.PureComponent<Props> {
                 onChange={this.handleChange}
                 margin="normal"
                 style={{ marginTop: 0, marginBottom: -16 }}
+                error={error || false}
             />
         );
     }

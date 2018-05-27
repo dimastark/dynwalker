@@ -1,14 +1,14 @@
-from sanic.response import HTTPResponse, text
+from sanic.response import HTTPResponse, json
 from sanic.request import Request
 
 
 async def play_game(request: Request) -> HTTPResponse:
-    return text('ok')
+    return json({})
 
 
 async def stop_game(request: Request) -> HTTPResponse:
-    return text('ok')
+    return json({})
 
 
 async def pause_game(request: Request) -> HTTPResponse:
-    return text('ok')
+    return json({})

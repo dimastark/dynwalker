@@ -28,7 +28,7 @@ class Area extends React.PureComponent<Props> {
         }
 
         const { size, statics, dynamics } = this.props;
-        const scale = window.innerWidth / size.width;
+        const scale = (window.innerWidth - 10) / size.width;
         const style = { border: '1px solid black' };
 
         return (

@@ -1,43 +1,95 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 
+import { playGame, stopGame, setPopulation } from '../../redux/actions/game';
 import Button from '../button';
 import TextField from '../textField';
+import populationIsNotError from '../../utils/isIntegerNumber';
 
 import './controls.css';
+import { RootState } from "../../redux/reducers";
+import { GameState } from "../../redux/reducers/game";
 
-type Props = {
+type StateFromProps = GameState;
 
-};
+type DispatchFromProps = {
+    playGame: Function,
+    stopGame: Function,
+    setPopulation: Function
+}
+
+
+type Props = StateFromProps & DispatchFromProps;
 
 class Controls extends React.PureComponent<Props> {
+    state = {
+        isErrorPopulation: true
+    };
+
     render() {
+
+        const { population } = this.props;
+        const { isErrorPopulation } = this.state;
+        console.log(`population: ${population}`);
+
         return (
             <div className="controls">
                 <div className="controls__block">
-                    <div className="controls__block_item"><Button value="Старт"/></div>
-                    <div className="controls__block_item"><Button value="Стоп"/></div>
+                    <div className="controls__block_item">
+                        <Button value="Старт" handleClick={this.handleClickStart}/>
+                    </div>
+                    <div className="controls__block_item">
+                        <Button value="Стоп" handleClick={this.handleClickStop}/>
+                    </div>
                 </div>
                 <div className="controls__block">
-                    <div className="controls__block_item"><Button value="Эволюция"/></div>
+                    <div className="controls__block_item">
+                        <Button value="Эволюция" handleClick={this.handleClickStart}/>
+                    </div>
                     <div className="controls__block_item">
                         <TextField
-                            value=""
-                            handleChange={this.handleChangeGeneration}
+                            value={population}
+                            handleChange={this.handleChangePopulation}
                             placeholder="population"
+                            error={isErrorPopulation}
                         />
                     </div>
                 </div>
                 <div className="controls__block">
-                    <div className="controls__block_item"><Button value="Импорт мозга"/></div>
-                    <div className="controls__block_item"><Button value="Экспорт мозга"/></div>
+                    <div className="controls__block_item">
+                        <Button value="Импорт мозга" handleClick={this.handleClickStart}/>
+                    </div>
+                    <div className="controls__block_item">
+                        <Button value="Экспорт мозга" handleClick={this.handleClickStart}/>
+                    </div>
                 </div>
             </div>
         );
     }
 
-    handleChangeGeneration = () => {
+    handleClickStart = () => {
+        this.props.playGame();
+    };
 
-    }
+    handleClickStop = () => {
+        this.props.stopGame();
+    };
+
+    handleChangePopulation = (value: string) => {
+        const isValid = populationIsNotError(value, 1000, 1);
+        this.setState({ ...this.state, isErrorPopulation: !isValid });
+        this.props.setPopulation(value);
+    };
 }
 
-export default Controls;
+const mapStateToProps = (state: RootState) => ({
+    ...state.game
+});
+
+const mapDispatchToProps = {
+    playGame,
+    stopGame,
+    setPopulation
+};
+
+export default connect<StateFromProps, DispatchFromProps>(mapStateToProps, mapDispatchToProps)(Controls);
