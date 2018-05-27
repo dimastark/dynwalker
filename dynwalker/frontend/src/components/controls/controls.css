@@ -1,0 +1,14 @@
+.controls {
+    display: flex;
+    width: 100%;
+    margin: 10px;
+}
+
+.controls__block {
+    display: flex;
+    margin-right: 20px;
+}
+
+.controls__block_item {
+    margin: 10px 10px 10px 0;
+}
