@@ -41,7 +41,7 @@ class Area extends React.PureComponent<Props> {
                         <Obstacle key={i} scale={scale} {...s}/>
                     ))}
                     {Object.values(dynamics.byId).map(({id, ...s}) => (
-                        <Obstacle key={id} scale={scale} text={s.type} {...s}/>
+                        <Obstacle key={id} scale={scale} text={s.type[0]} {...s}/>
                     ))}
                 </Layer>
             </Stage>

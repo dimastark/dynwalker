@@ -5,59 +5,37 @@ from sanic.request import Request
 async def get_area(request: Request) -> HTTPResponse:
     return json({
         'size': {
-            'width': 2500,
-            'height': 1250,
+            'width': 100,
+            'height': 50,
         },
         'statics': [
-            {
-                'shape': 'rectangle',
-                'width': 200,
-                'height': 200,
-                'x': 0,
-                'y': 0
-            },
-            {
-                'shape': 'circle',
-                'radius': 20,
-                'x': 500,
-                'y': 500
-            },
+            {'x': 0, 'y': 0},
+            {'x': 1, 'y': 1},
+            {'x': 2, 'y': 2}
         ],
         'dynamics': [
             {
                 'id': 10,
                 'type': 'interrupter',
-                'shape': 'circle',
-                'radius': 50,
-                'x': 300,
-                'y': 300,
+                'x': 10, 'y': 10,
                 'color': '#dd2853'
             },
             {
                 'id': 1,
                 'type': 'walker',
-                'shape': 'circle',
-                'radius': 50,
-                'x': 700,
-                'y': 200,
+                'x': 15, 'y': 15,
                 'color': '#82ca9d',
             },
             {
                 'id': 2,
                 'type': 'walker',
-                'shape': 'circle',
-                'radius': 50,
-                'x': 770,
-                'y': 770,
+                'x': 20, 'y': 20,
                 'color': '#82ca9d',
             },
             {
                 'id': 3,
                 'type': 'walker',
-                'shape': 'circle',
-                'radius': 50,
-                'x': 700,
-                'y': 200,
+                'x': 25, 'y': 25,
                 'color': '#82ca9d',
             },
         ],
