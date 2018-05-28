@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^1.1.0",
+    "@material-ui/icons": "^1.1.0",
     "ajv": "6.4.0",
     "file-loader": "1.1.11",
     "konva": "2.0.3",

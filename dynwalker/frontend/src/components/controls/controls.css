@@ -11,3 +11,10 @@
 .controls__block_item {
     margin: 10px 10px 10px 0;
 }
+
+.controls__upload-btn-wrapper input[type=file] {
+    width: 135px;
+    height: 18px;
+    margin-left: -135px;
+    opacity: 0;
+}

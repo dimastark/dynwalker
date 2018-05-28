@@ -1,20 +1,21 @@
 import * as React from 'react';
-// import { connect } from 'react-redux';
 import ButtonUI from '@material-ui/core/Button';
 
 type Props = {
     value: string,
-    handleClick: () => void
+    handleClick: () => void,
+    children? : object
 }
 
 
 class Button extends React.PureComponent<Props> {
     render() {
-        const { value } = this.props;
+        const { value, children } = this.props;
 
         return (
             <ButtonUI variant="raised" color="default" size="small" onClick={this.handleClick}>
                 {value || ''}
+                {children || ''}
             </ButtonUI>
         );
     }

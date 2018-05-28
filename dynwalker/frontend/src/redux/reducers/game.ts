@@ -1,5 +1,4 @@
 import { GameAction, GameActions } from '../actions/game';
-import isIntegerNumber from '../../utils/isIntegerNumber';
 
 export interface GameState {
     isPending: boolean,
@@ -39,6 +38,36 @@ export default function gameReducer(state: GameState = defaultState, action: Gam
             return {
                 ...state,
                 population: action.payload
+            };
+        case GameActions.EVOLVE:
+            return {
+                ...state,
+                isPending: true
+        };
+        case GameActions.EVOLVE_SUCCESS:
+            return {
+                ...state,
+                isPending: false
+            };
+        case GameActions.IMPORT_BRAIN:
+            return {
+                ...state,
+                isPending: true
+            };
+        case GameActions.IMPORT_BRAIN_SUCCESS:
+            return {
+                ...state,
+                isPending: false
+            };
+        case GameActions.EXPORT_BRAIN:
+            return {
+                ...state,
+                isPending: true
+            };
+        case GameActions.EXPORT_BRAIN_SUCCESS:
+            return {
+                ...state,
+                isPending: false
             };
 
         default:

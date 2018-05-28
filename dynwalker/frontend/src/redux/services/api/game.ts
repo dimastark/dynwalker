@@ -18,5 +18,18 @@ export default {
                 population_count: populationCount
             })
         });
+    },
+
+    exportBrain(): Promise<void> {
+        return request<void>('game/export', { method: 'post' });
+    },
+
+    importBrain(): Promise<void> {
+        return request<void>('game/import', {
+            method: 'post',
+            body: JSON.stringify({
+
+            })
+        });
     }
 }

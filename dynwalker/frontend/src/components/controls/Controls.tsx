@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { playGame, stopGame, setPopulation } from '../../redux/actions/game';
+import { playGame, stopGame, setPopulation, evolve, exportBrain, importBrain } from '../../redux/actions/game';
 import Button from '../button';
+import ExportButton from '../button/ExportButton';
+import ImportButton from '../button/ImportButton';
 import TextField from '../textField';
-import populationIsNotError from '../../utils/isIntegerNumber';
 
 import './controls.css';
 import { RootState } from "../../redux/reducers";
@@ -15,7 +16,10 @@ type StateFromProps = GameState;
 type DispatchFromProps = {
     playGame: Function,
     stopGame: Function,
-    setPopulation: Function
+    setPopulation: Function,
+    evolve: Function,
+    exportBrain: Function,
+    importBrain : Function,
 }
 
 
@@ -44,7 +48,7 @@ class Controls extends React.PureComponent<Props> {
                 </div>
                 <div className="controls__block">
                     <div className="controls__block_item">
-                        <Button value="Эволюция" handleClick={this.handleClickStart}/>
+                        <Button value="Эволюция" handleClick={this.handleClickEvolve}/>
                     </div>
                     <div className="controls__block_item">
                         <TextField
@@ -56,11 +60,12 @@ class Controls extends React.PureComponent<Props> {
                     </div>
                 </div>
                 <div className="controls__block">
-                    <div className="controls__block_item">
-                        <Button value="Импорт мозга" handleClick={this.handleClickStart}/>
+                    <div className="controls__block_item controls__upload-btn-wrapper">
+                        <ImportButton value="Импорт мозга" handleClick={this.handleClickImport}/>
+                        <input name="myFile" type="file"/>
                     </div>
                     <div className="controls__block_item">
-                        <Button value="Экспорт мозга" handleClick={this.handleClickStart}/>
+                        <ExportButton value="Экспорт мозга" handleClick={this.handleClickExport}/>
                     </div>
                 </div>
             </div>
@@ -75,10 +80,34 @@ class Controls extends React.PureComponent<Props> {
         this.props.stopGame();
     };
 
+    isValidPopulation = (valueString: string) => {
+        const valueIsNatural = /^\+?(0|[1-9]\d*)$/.test(valueString);
+        const valueInt = parseInt(valueString);
+
+        return valueIsNatural && valueInt <= 1000 && valueInt >= 1;
+    };
+
     handleChangePopulation = (value: string) => {
-        const isValid = populationIsNotError(value, 1000, 1);
+        const isValid = this.isValidPopulation(value);
         this.setState({ ...this.state, isErrorPopulation: !isValid });
         this.props.setPopulation(value);
+    };
+
+    handleClickEvolve = () => {
+        const { population } = this.props;
+
+        if (this.isValidPopulation(population)) {
+            this.props.evolve(parseInt(population));
+        }
+
+    };
+
+    handleClickImport = () => {
+        this.props.importBrain();
+    };
+
+    handleClickExport = () => {
+        this.props.exportBrain();
     };
 }
 
@@ -89,7 +118,10 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = {
     playGame,
     stopGame,
-    setPopulation
+    setPopulation,
+    evolve,
+    exportBrain,
+    importBrain,
 };
 
 export default connect<StateFromProps, DispatchFromProps>(mapStateToProps, mapDispatchToProps)(Controls);

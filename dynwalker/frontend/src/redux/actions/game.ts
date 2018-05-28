@@ -5,7 +5,11 @@ export enum GameActions {
     STOP_GAME_SUCCESS = 'STOP_GAME_SUCCESS',
     SET_POPULATION = 'SET_POPULATION',
     EVOLVE = 'EVOLVE',
-    EVOLVE_SUCCESS = 'EVOLVE_SUCCESS'
+    EVOLVE_SUCCESS = 'EVOLVE_SUCCESS',
+    EXPORT_BRAIN = 'EXPORT_ BRAIN',
+    EXPORT_BRAIN_SUCCESS = 'EXPORT_BRAIN_SUCCESS',
+    IMPORT_BRAIN = 'IMPORT_BRAIN',
+    IMPORT_BRAIN_SUCCESS = 'IMPORT_BRAIN_SUCCESS',
 }
 
 export type PlayGameAction = {
@@ -61,12 +65,19 @@ export function setPopulation(value: string): SetPopulationAction {
 }
 
 export type EvolveAction = {
-    type: GameActions.EVOLVE
+    type: GameActions.EVOLVE,
+    payload: {
+        populationCount: number
+    }
 };
 
-export function evolve(): EvolveAction {
+export function evolve(populationCount: number): EvolveAction {
     return {
-        type: GameActions.EVOLVE
+        type: GameActions.EVOLVE,
+        payload: {
+            populationCount
+        }
+
     };
 }
 
@@ -80,6 +91,49 @@ export function evolveSuccess(): EvolveSuccessAction {
     };
 }
 
+export type ImportBrainAction = {
+    type: GameActions.IMPORT_BRAIN
+};
+
+export function importBrain(): ImportBrainAction {
+    return {
+        type: GameActions.IMPORT_BRAIN
+    };
+}
+
+export type ImportBrainSuccessAction = {
+    type: GameActions.IMPORT_BRAIN_SUCCESS
+};
+
+export function importBrainSuccess(): ImportBrainSuccessAction {
+    return {
+        type: GameActions.IMPORT_BRAIN_SUCCESS
+    };
+}
+
+export type ExportBrainAction = {
+    type: GameActions.EXPORT_BRAIN
+};
+
+export function exportBrain(): ExportBrainAction {
+    return {
+        type: GameActions.EXPORT_BRAIN
+    };
+}
+
+export type ExportBrainSuccessAction = {
+    type: GameActions.EXPORT_BRAIN_SUCCESS
+};
+
+export function exportBrainSuccess(): ExportBrainSuccessAction {
+    return {
+        type: GameActions.EXPORT_BRAIN_SUCCESS
+    };
+}
+
+
 export type GameAction = PlayGameAction | PlayGameSuccessAction |
     StopGameAction | StopGameSuccessAction | SetPopulationAction |
-    EvolveAction | EvolveSuccessAction | { type: '' };
+    EvolveAction | EvolveSuccessAction | ExportBrainAction |
+    ExportBrainSuccessAction | ImportBrainAction | ImportBrainSuccessAction |
+    { type: '' };
