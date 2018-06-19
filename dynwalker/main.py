@@ -1,6 +1,6 @@
-from gym.envs.classic_control import CartPoleEnv
+from dynwalker.env import MazeEnv
 
-env = CartPoleEnv()
+env = MazeEnv()
 env.reset()
 
 for _ in range(1000):
