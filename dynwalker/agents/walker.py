@@ -18,33 +18,34 @@ class WalkerAgent(ModelDrivenMixin, MazeMixin, Agent):
             default_position=conf.WALKER_POSITION,
         )
 
-        self.score = 0
         self.observation = None
+        self.score = 0
+        self.min_dir = 2 * conf.DEFAULT_MAZE_SIZE
 
     def act(self, observation):
         self.observation = observation
 
         possible_acts = []
 
-        if observation.field[self.position[0] - 1, self.position[1]] not in [conf.BLOCKER, conf.STATIC]:
+        if observation.field[self.position[0], self.position[1] - 1] not in [conf.BLOCKER, conf.STATIC]:
             possible_acts.append(0)
 
-        if observation.field[self.position[0], self.position[1] + 1] not in [conf.BLOCKER, conf.STATIC]:
+        if observation.field[self.position[0] + 1, self.position[1]] not in [conf.BLOCKER, conf.STATIC]:
             possible_acts.append(1)
 
-        if observation.field[self.position[0] + 1, self.position[1]] not in [conf.BLOCKER, conf.STATIC]:
+        if observation.field[self.position[0], self.position[1] + 1] not in [conf.BLOCKER, conf.STATIC]:
             possible_acts.append(2)
 
-        if observation.field[self.position[0], self.position[1] - 1] not in [conf.BLOCKER, conf.STATIC]:
+        if observation.field[self.position[0] - 1, self.position[1]] not in [conf.BLOCKER, conf.STATIC]:
             possible_acts.append(3)
 
         prediction = self.model.predict(np.reshape(observation.field, [1, self.state_size]))
         act = np.argmax(prediction[0])
 
-        if act not in possible_acts or np.random.rand() <= self.epsilon:
-            return random.choice(possible_acts)
+        if act in possible_acts:
+            return act
 
-        return act
+        return random.choice(possible_acts)
 
     def step(self, action):
         position, reward, info = super().step_in_maze(action)
@@ -58,10 +59,16 @@ class WalkerAgent(ModelDrivenMixin, MazeMixin, Agent):
             info['failure'] = True
             return -1, True, info
 
+        new_dst = abs(conf.TARGET_POSITION[0] - self.position[0]) + abs(conf.TARGET_POSITION[1] - self.position[1])
+        if new_dst < self.min_dir:
+            self.min_dir = new_dst
+            reward += 0.5
+
         return reward, False, info
 
     def reset(self):
         self.score = 0
+        self.min_dir = 2 * conf.DEFAULT_MAZE_SIZE
         return self.reset_position()
 
     def build_model(self):

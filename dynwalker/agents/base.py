@@ -45,7 +45,7 @@ class MazeMixin(abc.ABC):
         if action == 3:
             new_position[0] -= 1
 
-        reward = -0.2 if tuple(new_position) in self.visited else -0.1
+        reward = -0.6 if tuple(new_position) in self.visited else -0.5
         info = {'previous_position': self.position}
 
         self.position = new_position

@@ -31,11 +31,13 @@ class MazeEnv(MultiAgentEnv):
         return [generator_seed]
 
     def reset(self):
-        self.maze = Maze.new(conf.DEFAULT_MAZE_SIZE, self.random)
+        if conf.REGENERATE_MAZE or not self.maze:
+            self.maze = Maze.new(conf.DEFAULT_MAZE_SIZE, self.random)
 
         for agent in self.agents:
             x, y = agent.position
-            self.maze.field[x, y] = agent.value
+            self.maze.field[x, y] = conf.EMPTY
+        self.maze.field[conf.TARGET_POSITION[0], conf.TARGET_POSITION[1]] = conf.TARGET
 
         if self.scene:
             self.scene.reset()
@@ -48,6 +50,11 @@ class MazeEnv(MultiAgentEnv):
         for agent, info in zip(self.agents, infos):
             x, y = agent.position
             self.maze.field[x, y] = agent.value
+            x, y = info['previous_position']
+            self.maze.field[x, y] = conf.EMPTY
+
+        if all([agent.score < conf.MIN_SCORE for agent in self.agents]):
+            return observation, rewards, True, infos
 
         return observation, rewards, done, infos
 

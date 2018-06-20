@@ -26,25 +26,25 @@ class BlockerAgent(ModelDrivenMixin, MazeMixin, Agent):
 
         possible_acts = []
 
-        if observation.field[self.position[0] - 1, self.position[1]] not in [conf.TARGET, conf.STATIC]:
+        if observation.field[self.position[0], self.position[1] - 1] not in [conf.TARGET, conf.STATIC]:
             possible_acts.append(0)
 
-        if observation.field[self.position[0], self.position[1] + 1] not in [conf.TARGET, conf.STATIC]:
+        if observation.field[self.position[0] + 1, self.position[1]] not in [conf.TARGET, conf.STATIC]:
             possible_acts.append(1)
 
-        if observation.field[self.position[0] + 1, self.position[1]] not in [conf.TARGET, conf.STATIC]:
+        if observation.field[self.position[0], self.position[1] + 1] not in [conf.TARGET, conf.STATIC]:
             possible_acts.append(2)
 
-        if observation.field[self.position[0], self.position[1] - 1] not in [conf.TARGET, conf.STATIC]:
+        if observation.field[self.position[0] - 1, self.position[1]] not in [conf.TARGET, conf.STATIC]:
             possible_acts.append(3)
 
         prediction = self.model.predict(np.reshape(observation.field, [1, self.state_size]))
         act = np.argmax(prediction[0])
 
-        if act not in possible_acts or np.random.rand() <= self.epsilon:
-            return random.choice(possible_acts)
+        if act in possible_acts:
+            return act
 
-        return act
+        return random.choice(possible_acts)
 
     def step(self, action):
         position, reward, info = super().step_in_maze(action)

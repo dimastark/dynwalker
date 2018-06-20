@@ -11,7 +11,6 @@ for episode in range(conf.EPISODES_COUNT):
     observation = env.reset()
 
     for time in range(conf.STEPS_COUNT):
-        # if episode > 5000:
         env.render()
 
         actions = [agent.act(observation) for agent in env.agents]
