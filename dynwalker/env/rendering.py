@@ -49,8 +49,7 @@ class SceneCanvas(tk.Canvas):
 
         for y in range(len(model)):
             for x in range(len(model[0])):
-                if model[x][y]:
-                    self.render_cell(x, y, model[x][y])
+                self.render_cell(x, y, model[x][y])
 
     def reset(self):
         self.delete('all')

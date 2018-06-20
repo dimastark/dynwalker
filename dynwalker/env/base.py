@@ -2,7 +2,8 @@ import abc
 
 import gym
 
-from ..agents import Agent, GoalAgent
+from dynwalker import conf
+from ..agents import Agent
 
 
 class MultiAgentEnv(gym.Env, metaclass=abc.ABCMeta):
@@ -11,14 +12,11 @@ class MultiAgentEnv(gym.Env, metaclass=abc.ABCMeta):
 
         assert all([isinstance(agent, Agent) for agent in self.agents])
 
-        for agent in self.agents:
-            agent.env = self
-
     def reset(self):
         for agent in self.agents:
             agent.reset()
 
-        return self.get_agents_observations()
+        return self.get_observation()
 
     def step(self, actions):
         assert len(self.agents) == len(actions)
@@ -26,18 +24,24 @@ class MultiAgentEnv(gym.Env, metaclass=abc.ABCMeta):
         rewards, dones, infos = [], [], []
 
         for agent, action in zip(self.agents, actions):
-            observation, reward, done, info = agent.step(action)
+            reward, done, info = agent.step(action)
+
+            info['done'] = done
 
             rewards.append(reward)
             dones.append(done)
             infos.append(info)
 
-        return self.get_agents_observations(), rewards, self.get_done(dones), infos
+        return self.get_observation(), rewards, self.get_done(dones), infos
 
-    def get_agents_observations(self):
-        observation = self.get_observation()
+    def update_target_models(self):
+        for agent in self.agents:
+            agent.make_model_snapshot()
 
-        return [agent.get_observation(observation) for agent in self.agents]
+    def remind_all(self):
+        for agent in self.agents:
+            if len(agent.memory) > conf.BATCH_SIZE:
+                agent.replay()
 
     @abc.abstractmethod
     def render(self, mode='human'):
@@ -50,16 +54,3 @@ class MultiAgentEnv(gym.Env, metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def get_done(self, agent_dones):
         pass
-
-
-class MultiAgentGoalEnv(MultiAgentEnv, gym.GoalEnv, metaclass=abc.ABCMeta):
-    def __init__(self, agents=None):
-        super(MultiAgentGoalEnv, self).__init__(agents)
-
-        assert all([isinstance(agent, GoalAgent) for agent in self.agents])
-
-    def compute_reward(self, achieved_goals, desired_goals, infos):
-        return [
-            agent.compute_reward(achieved_goal, desired_goal, info)
-            for agent, achieved_goal, desired_goal, info in zip(self.agents, achieved_goals, desired_goals, infos)
-        ]

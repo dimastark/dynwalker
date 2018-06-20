@@ -1,16 +1,19 @@
 import random
 
 from .. import conf
+from ..agents import MazeMixin
 from ..utils import Maze
 from .rendering import MazeScene
-from .base import MultiAgentGoalEnv
+from .base import MultiAgentEnv
 
 
-class MazeEnv(MultiAgentGoalEnv):
+class MazeEnv(MultiAgentEnv):
     metadata = {'render.modes': ['ansi', 'human']}
 
     def __init__(self, agents=None):
         super().__init__(agents)
+
+        assert all([isinstance(agent, MazeMixin) for agent in self.agents])
 
         self.maze = None
         self.random = None
@@ -30,10 +33,23 @@ class MazeEnv(MultiAgentGoalEnv):
     def reset(self):
         self.maze = Maze.new(conf.DEFAULT_MAZE_SIZE, self.random)
 
+        for agent in self.agents:
+            x, y = agent.position
+            self.maze.field[x, y] = agent.value
+
         if self.scene:
             self.scene.reset()
 
         return super().reset()
+
+    def step(self, actions):
+        observation, rewards, done, infos = super().step(actions)
+
+        for agent, info in zip(self.agents, infos):
+            x, y = agent.position
+            self.maze.field[x, y] = agent.value
+
+        return observation, rewards, done, infos
 
     def render(self, mode='human'):
         assert self.maze

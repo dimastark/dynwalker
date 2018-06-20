@@ -30,4 +30,7 @@ class Maze:
             rnd=rnd,
         ))
 
+        x, y = conf.TARGET_POSITION
+        maze.field[x, y] = conf.TARGET
+
         return maze

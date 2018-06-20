@@ -1,2 +1,2 @@
-from .base import MultiAgentEnv, MultiAgentGoalEnv
+from .base import MultiAgentEnv
 from .maze import MazeEnv
